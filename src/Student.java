@@ -9,7 +9,7 @@ public class Student {
     private String passStatus;
 
     public Student(String id, String name) {
-        if(id == null || id.isEmpty() || name == null || name.isEmpty()){
+        if (id == null || id.isEmpty() || name == null || name.isEmpty()) {
             throw new IllegalArgumentException("ID and Name cannot be empty.");
         }
         this.id = id;
@@ -20,20 +20,22 @@ public class Student {
     }
 
     public void addGrade(Object grade) {
-        if (grade instanceof Number) {
-            double g = ((Number) grade).doubleValue();
+        if (grade instanceof Number number) {
+            double g = number.doubleValue();
             if (g >= 0 && g <= 100) {
                 grades.add(g);
             } else {
-                System.out.println("Error: Grade must be between 0 and 100.");
+                throw new IllegalArgumentException("Grade must be between 0 and 100.");
             }
         } else {
-            System.out.println("Error: Grade must be a numeric value.");
+            throw new IllegalArgumentException("Grade must be a numeric value.");
         }
     }
 
     public double average() {
-        if (grades.isEmpty()) return 0;
+        if (grades.isEmpty()) {
+            return 0;
+        }
         double total = 0;
         for (double g : grades) {
             total += g;
@@ -43,11 +45,16 @@ public class Student {
 
     public String letterGrade() {
         double avg = average();
-        if (avg >= 90) return "A";
-        else if (avg >= 80) return "B";
-        else if (avg >= 70) return "C";
-        else if (avg >= 60) return "D";
-        else return "F";
+        if (avg >= 90)
+            return "A";
+        else if (avg >= 80)
+            return "B";
+        else if (avg >= 70)
+            return "C";
+        else if (avg >= 60)
+            return "D";
+        else
+            return "F";
     }
 
     public void checkHonorStatus() {
@@ -62,13 +69,13 @@ public class Student {
         if (index >= 0 && index < grades.size()) {
             grades.remove(index);
         } else {
-            System.out.println("Error: Index out of range.");
+            throw new IndexOutOfBoundsException("Index out of range.");
         }
     }
 
     public void removeGradeByValue(double value) {
         if (!grades.remove(value)) {
-            System.out.println("Error: Grade value not found.");
+            throw new IllegalArgumentException("Grade value not found.");
         }
     }
 
